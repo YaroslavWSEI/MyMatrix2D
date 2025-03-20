@@ -1,80 +1,68 @@
-﻿namespace Matrix2dLibr
+﻿#nullable disable
+namespace Matrix2dLibr
 {
     public class Matrix2d : IEquatable<Matrix2d>
     {
         int a, b, c, d;
-        private int[,] matrix;
-
         public Matrix2d(int a, int b, int c, int d)
         {
-            matrix = new int[2, 2] { { a, b }, { c, d } };
+            this.a = a; this.b = b; this.c = c; this.d = d;
         }
+        public Matrix2d() : this(1, 0, 0, 1) { }
 
-        public Matrix2d()
-        {
-            matrix = new int[2, 2] { { 1, 0 }, { 0, 1 } };
-        }
-
-        public int this[int row, int col]
-        {
-            get { return matrix[row, col]; }
-            set { matrix[row, col] = value; }
-        }
         public static Matrix2d Id
         {
             get { return new Matrix2d(); }
         }
-
         public static Matrix2d Zero
         {
             get { return new Matrix2d(0, 0, 0, 0); }
         }
         public override string ToString()
         {
-            return $"[{a},{b}], [{c}, {d}]]";
+            return $"[[{a}, {b}], [{c}, {d}]]";
+        }
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Matrix2d);
         }
         public bool Equals(Matrix2d other)
         {
-            if (other == null)
+            if (other is null)
                 return false;
 
-            return matrix[0, 0] == other.matrix[0, 0] &&
-                   matrix[0, 1] == other.matrix[0, 1] &&
-                   matrix[1, 0] == other.matrix[1, 0] &&
-                   matrix[1, 1] == other.matrix[1, 1];
+            return a == other.a &&
+                b == other.b &&
+                c == other.c &&
+                d == other.d;
         }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is Matrix2d other)
-                return Equals(other);
-
-            return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(matrix[0, 0], matrix[0, 1], matrix[1, 0], matrix[1, 1]);
-        }
-
         public static bool operator ==(Matrix2d left, Matrix2d right)
-        {
-            if (ReferenceEquals(left, right))
-                return true;
-
-            if (left is null || right is null)
-                return false;
-
-            return left.Equals(right);
-        }
-
+            => left.Equals(right);
         public static bool operator !=(Matrix2d left, Matrix2d right)
-        {
-            return !(left == right);
-        }
-    
+            => !(left == right);
+        public override int GetHashCode()
+           => HashCode.Combine(a, b, c, d);
+        public static Matrix2d operator +(Matrix2d left, Matrix2d right)
+            => new Matrix2d(left.a + right.a, left.b + right.b,
+                            left.c + right.c, left.d + right.d);
+        public static Matrix2d operator -(Matrix2d left, Matrix2d right)
+           => new Matrix2d(left.a - right.a, left.b - right.b,
+                           left.c - right.c, left.d - right.d);
+        public static Matrix2d operator *(Matrix2d left, Matrix2d right)
+            => new Matrix2d(
+                left.a * right.a + left.b * right.c,
+                left.a * right.b + left.b * right.d,
+                left.c * right.a + left.d * right.c,
+                left.c * right.b + left.d * right.d);
+        public static Matrix2d operator *(int k, Matrix2d macierz)
+            => new Matrix2d(k * macierz.a, k * macierz.b,
+                            k * macierz.c, k * macierz.d);
 
+        public static Matrix2d operator *(Matrix2d macierz, int k)
+           => k * macierz;
+
+        public static Matrix2d Transpose(Matrix2d m)
+            => new Matrix2d(m.a, m.c, m.b, m.d);
 
     }
 }
-
