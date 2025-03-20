@@ -1,7 +1,8 @@
-﻿namespace Matrix2dLib
+﻿namespace Matrix2dLibr
 {
     public class Matrix2d : IEquatable<Matrix2d>
     {
+        int a, b, c, d;
         private int[,] matrix;
 
         public Matrix2d(int a, int b, int c, int d)
@@ -20,14 +21,18 @@
             set { matrix[row, col] = value; }
         }
         public static Matrix2d Id
-        {     
+        {
             get { return new Matrix2d(); }
         }
-            
+
         public static Matrix2d Zero
         {
             get { return new Matrix2d(0, 0, 0, 0); }
-        }  
+        }
+        public override string ToString()
+        {
+            return $"[{a},{b}], [{c}, {d}]]";
+        }
         public bool Equals(Matrix2d other)
         {
             if (other == null)
@@ -38,7 +43,7 @@
                    matrix[1, 0] == other.matrix[1, 0] &&
                    matrix[1, 1] == other.matrix[1, 1];
         }
-         
+
         public override bool Equals(object obj)
         {
             if (obj is Matrix2d other)
@@ -67,8 +72,9 @@
         {
             return !(left == right);
         }
-    }
     
-        
+
+
+    }
 }
 

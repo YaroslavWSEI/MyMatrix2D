@@ -1,4 +1,4 @@
-﻿namespace MatrixTest
+﻿namespace Matrix2dTest
 {
     [TestClass]
     public sealed class Test1
