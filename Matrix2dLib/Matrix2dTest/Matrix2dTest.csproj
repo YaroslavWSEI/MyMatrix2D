@@ -23,6 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Matrix2dConsoleApp\Matrix2dConsoleApp.csproj" />
+    <ProjectReference Include="..\Matrix2dLibr\Matrix2dLibr.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
