@@ -3,7 +3,7 @@ namespace Matrix2dLibr
 {
     public class Matrix2d : IEquatable<Matrix2d>
     {
-        int a, b, c, d;
+        readonly int a, b, c, d;
         public Matrix2d(int a, int b, int c, int d)
         {
             this.a = a; this.b = b; this.c = c; this.d = d;
@@ -58,11 +58,32 @@ namespace Matrix2dLibr
             => new Matrix2d(k * macierz.a, k * macierz.b,
                             k * macierz.c, k * macierz.d);
 
-        public static Matrix2d operator *(Matrix2d macierz, int k)
-           => k * macierz;
+        public static Matrix2d operator *(Matrix2d macierz, int k) => k * macierz;
+        public static Matrix2d operator -(Matrix2d macierz) => new Matrix2d(-macierz.a, -macierz.b, -macierz.c, -macierz.d);
+        public static Matrix2d Transpose(Matrix2d m) => new Matrix2d(m.a, m.c, m.b, m.d);
+        public int Determinant() => a * d - b * c;
+        public int Det() => Determinant();
 
-        public static Matrix2d Transpose(Matrix2d m)
-            => new Matrix2d(m.a, m.c, m.b, m.d);
+        public static explicit operator int[,](Matrix2d m) => new int[,] { { m.a, m.b }, { m.c, m.d } }; 
+        public static Matrix2d Parse(string s)
+        {
+            try
+            {
+                var parts = s.Trim('[', ']').Split(new[] { "], [" }, StringSplitOptions.None);
+                var firstRow = parts[0].Split(',');
+                var secondRow = parts[1].Split(',');
 
+                return new Matrix2d(
+                    int.Parse(firstRow[0].Trim()),
+                    int.Parse(firstRow[1].Trim()),
+                    int.Parse(secondRow[0].Trim()),
+                    int.Parse(secondRow[1].Trim())
+                );
+            }
+            catch
+            {
+                throw new FormatException("Invalid format for Matrix2d.");
+            }
+        }
     }
 }
